@@ -2,6 +2,7 @@
 /*
 * Mysql database class - only one connection alowed
 */
+//cek
 class Database {
 	private $_connection;
 	private static $_instance; //The single instance
