@@ -9,7 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>SI Pegadaian - Dashboard</title>
+  <title>SI Pegadaian - Pengajuan</title>
 
   <!-- Custom fonts for this template-->
   <link href="../assets/css/all.min.css" rel="stylesheet" type="text/css">
@@ -288,7 +288,7 @@
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+            <h1 class="h3 mb-0 text-gray-800">Pengajuan</h1>
           </div>
 
           <div class="row">

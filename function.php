@@ -6,7 +6,7 @@ include'database.php';
 // $query = "SELECT * FROM supplier";
 // $result = $mysqli->query($query);
 
-$func = $_GET['func'];
+$func = $_GET['func'] ?? '';
 
 /***
 * Kumpulan Fungsi Proses
@@ -28,15 +28,36 @@ $result = $mysqli->query($query);
     }
 }
 
+//Fungsi Tampil nasabah
+$idnasabah = $_GET['idnasabah'] ?? '';
+function tampilNasabah(){
+    $query = "SELECT * FROM nasabah";
+    $mysqli = Database::getInstance()->getConnection();
+    $result = $mysqli->query($query);
+    while($d=mysqli_fetch_array($result)){
+        $data[] =$d;
+    }
+    return $data;
+}
+
 // Fungsi Tambah Nasabah
 
 function tambahNasabah($noidnasabah, $namanasabah, $jeniskelaminnasabah, $tempatlahirnasabah, $tanggallahirnasabah, $agamanasabah, $pendidikannasabah, $tanggalpendaftaran ){
-    $query = "INSERT INTO nasabah (noidnasabah, namanasabah, jeniskelaminnasabah, tempatlahirnasabah, tanggallahirnasabah, agamanasabah, pendidikannasabah, tanggalpendaftaran) values($noidnasabah, $namanasabah, $jeniskelaminnasabah, $tempatlahirnasabah, $tanggallahirnasabah, $agamanasabah, $pendidikannasabah, $tanggalpendaftaran)" or die(mysql_error());
+    $query = "INSERT INTO `nasabah` (`noidnasabah`, `namanasabah`, `jeniskelaminnasabah`, `tempatlahirnasabah`, `tanggallahirnasabah`, `agamanasabah`, `pendidikannasabah`, `tanggalpendaftaran`) VALUES ('$noidnasabah', '$namanasabah', '$jeniskelaminnasabah', '$tempatlahirnasabah', '$tanggallahirnasabah', '$agamanasabah', '$pendidikannasabah', '$tanggalpendaftaran')" or die(mysql_error());
+    $mysqli = Database::getInstance()->getConnection();
+    $result = $mysqli->query($query);
+    if($result){
+        // header("location:admin/controller.php?hal=dashboard");
+        echo "<script>alert('Berhasil Menambahkan.'); window.location = 'admin/nasabah.php'</script>";
+    }else{
+        echo mysqli_error($mysqli);
+        header("location:admin/nasabah.php");
+    }
 }
 
 //Fungsi Tambah Pengajuan
 function tambahPengajuan($idpengajuan, $nopinjaman, $tujuanpengajuan, $besarpengajuan, $jangkawaktupengajuan, $tanggalpengajuan){
-    $query = "INSERT INTO pengajuan_pinjaman (idpengajuan, nopinjaman, tujuanpengajuan, besarpengajuan, jangkawaktupengajuan, tanggalpengajuan) values($idpengajuan, $nopinjaman, $tujuanpengajuan, $besarpengajuan, $jangkawaktupengajuan, $tanggalpengajuan)";
+    $query = "INSERT INTO pengajuan_pinjaman (idpengajuan, nopinjaman, tujuanpengajuan, besarpengajuan, jangkawaktupengajuan, tanggalpengajuan) values('$idpengajuan', '$nopinjaman', '$tujuanpengajuan', '$besarpengajuan', '$jangkawaktupengajuan', '$tanggalpengajuan')";
 
 }
 
@@ -57,6 +78,6 @@ if($func == "login"){
 
 //Func Tambah Nasabah
 if($func == "tambahNasabah"){
-    tambahNasabah($_POST['noidnasabah'], $_POST['namanasabah'], $_POST['jeniskelaminnasabah'], $_POST['tempatlahirnasabah'], $_POST['tanggallahirnasabah'], $_POST['agamanasabah'], $_POST['pendidikannasabah'], $_POST['tanggalpendaftaran']);
+    tambahNasabah($_GET['noidnasabah'], $_GET['namanasabah'], $_GET['jeniskelaminnasabah'], $_GET['tempatlahirnasabah'], $_GET['tanggallahirnasabah'], $_GET['agamanasabah'], $_GET['pendidikannasabah'], $_GET['tanggalpendaftaran']);
 }
 ?>

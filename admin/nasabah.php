@@ -1,3 +1,7 @@
+<?php
+include '../function.php';
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,7 +13,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>SI Pegadaian - Dashboard</title>
+  <title>SI Pegadaian - Nasabah</title>
 
   <!-- Custom fonts for this template-->
   <link href="../assets/css/all.min.css" rel="stylesheet" type="text/css">
@@ -183,7 +187,7 @@
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+            <h1 class="h3 mb-0 text-gray-800">Nasabah</h1>
           </div>
 
           <div class="row">
@@ -200,19 +204,29 @@
                       <th>Agama</th>
                       <th>Pendidikan</th>
                       <th>Tanggal Pendaftaran</th>
+                      <th>Aksi</th>
                   </tr>
               </thead>
               <tbody>
+              <?php 
+                $no = 1;
+                foreach (tampilNasabah() as $d) {
+                ?>
                   <tr>
-                      <td>1</td>
-                      <td>Nasabah 1</td>
-                      <td>Laki - Laki</td>
-                      <td>Indramayu</td>
-                      <td>19 Nopember 1995</td>
-                      <td>Islam</td>
-                      <td>S1</td>
-                      <td>20 Agustus 2019</td>
+                      <td><?= $no++ ?></td>
+                      <td><?= $d['namanasabah']; ?></td>
+                      <td><?= $d['jeniskelaminnasabah']; ?></td>
+                      <td><?= $d['tempatlahirnasabah']; ?></td>
+                      <td><?= $d['tanggallahirnasabah']; ?></td>
+                      <td><?= $d['agamanasabah']; ?></td>
+                      <td><?= $d['agamanasabah']; ?></td>
+                      <td><?= $d['tanggalpendaftaran']; ?></td>
+                      <td><a href="nasabah.php?func=edit" class="fa fa-edit">Edit</a> | <a href="http://" class="fa fa-trash">Hapus</a></td>
                   </tr>
+              <?php
+
+                }
+              ?>
               </tbody>
             </table>
           </div>
@@ -256,7 +270,7 @@
 
       <!-- Modal body -->
       <div class="modal-body">
-        <form action="/action_page.php">
+        <form action="../function.php?func=tambahNasabah" method="GET">
           <div class="form-group">
             <label for="noidnasabah">No Id Nasabah</label>
             <input type="text" class="form-control" name="noidnasabah">
@@ -303,7 +317,7 @@
             <label for="tanggalpendaftaran">Tanggal Pendaftaran</label>
             <input type="date" class="form-control" name="tanggalpendaftaran" value="<?php echo date('d/m/y');?>">
           </div>
-          <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="submit" class="btn btn-primary" name="func" value="tambahNasabah">Tambah Nasabah</button>
         </form>
       </div>
 
