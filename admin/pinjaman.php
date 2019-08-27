@@ -13,7 +13,7 @@ include '../function.php';
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>SI Pegadaian - Pengajuan</title>
+  <title>SI Pegadaian - Pinjaman</title>
 
   <!-- Custom fonts for this template-->
   <link href="../assets/css/all.min.css" rel="stylesheet" type="text/css">
@@ -186,7 +186,7 @@ include '../function.php';
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Pengajuan</h1>
+            <h1 class="h3 mb-0 text-gray-800">Pinjaman</h1>
           </div>
 
           <div class="row">
@@ -196,33 +196,31 @@ include '../function.php';
               <thead>
                   <tr>
                       <th>No</th>
-                      <th>No ID Pengajuan</th>
                       <th>No Pinjaman</th>
-                      <th>Tujuan Pengajuan</th>
-                      <th>Besar Pengajuan</th>
-                      <th>Jangka Waktu</th>
-                      <th>Tanggal Pengajuan</th>
+                      <th>Besar Pinjaman</th>
+                      <th>Barang Jaminan</th>
+                      <th>Tanggal Pinjaman</th>
+                      <th>Tanggal Berakhir</th>
                       <th>Aksi</th>
                   </tr>
               </thead>
               <tbody>
               <?php 
-              if (cekData("pengajuan_pinjaman") == true) {
+              if (cekData("pinjaman") == true) {
                 // echo "tidak ada data";
               }else {
                 // echo "ada datanya";
                 $no = 1;
-                foreach (tampilData("pengajuan_pinjaman") as $d) {
+                foreach (tampilData("pinjaman") as $d) {
                   ?>
                     <tr>
                         <td><?= $no++ ?></td>
-                        <td><?= $d['idpengajuan']; ?></td>
                         <td><?= $d['nopinjaman']; ?></td>
-                        <td><?= $d['tujuanpengajuan']; ?></td>
-                        <td><?= $d['besarpengajuan']; ?></td>
-                        <td><?= $d['jangkawaktupengajuan']; ?></td>
-                        <td><?= $d['tanggalpengajuan']; ?></td>
-                        <td><a href="pengajuan_pinjaman.php?func=editPengajuan&tabel=pengajuan_pinjaman&key=idpengajuan&idpengajuan=<?=$d['idpengajuan']; ?>" type="button" class="fa fa-edit" id="edit">Edit</a> | <a href="pengajuan_pinjaman.php?func=hapusDataPengajuan&tabel=pengajuan_pinjaman&key=idpengajuan&idpengajuan=<?=$d['idpengajuan']; ?>" class="fa fa-trash">Hapus</a></td>
+                        <td><?= $d['besarpinjaman']; ?></td>
+                        <td><?= $d['barangpinjaman']; ?></td>
+                        <td><?= $d['tanggalpinjaman']; ?></td>
+                        <td><?= $d['tanggalberakhir']; ?></td>
+                        <td><a href="pinjaman.php?func=editPinjaman&tabel=pinjaman&key=nipinjaman&nopinjaman=<?=$d['nopinjaman']; ?>" type="button" class="fa fa-edit" id="edit">Edit</a> | <a href="pinjaman.php?func=hapusDataPinjaman&tabel=pinjaman&key=nopinjaman&nopinjaman=<?=$d['nopinjaman']; ?>" class="fa fa-trash">Hapus</a></td>
                     </tr>
                 <?php
   
