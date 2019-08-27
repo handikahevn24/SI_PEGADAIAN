@@ -87,7 +87,7 @@ include '../function.php';
 
       <!-- Nav Item - Tables -->
       <li class="nav-item">
-        <a class="nav-link" href="controller.php?hal=pengajuan">
+        <a class="nav-link" href="controller.php?hal=pengajuan_pinjaman">
           <i class="fas fa-fw fa-table"></i>
           <span>Pengajuan</span></a>
       </li>
@@ -153,8 +153,7 @@ include '../function.php';
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">Admin</span>
-                <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
-              </a>
+            </a>
               <!-- Dropdown - User Information -->
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                 <a class="dropdown-item" href="#">
@@ -225,7 +224,7 @@ include '../function.php';
                         <td><?= $d['agamanasabah']; ?></td>
                         <td><?= $d['agamanasabah']; ?></td>
                         <td><?= $d['tanggalpendaftaran']; ?></td>
-                        <td><a href="nasabah.php?func=hapus" class="fa fa-edit">Edit</a> | <a href="nasabah.php?func=hapusData&tabel=nasabah&key=noidnasabah&noidnasabah=<?=$d['noidnasabah']; ?>" class="fa fa-trash">Hapus</a></td>
+                        <td><a href="nasabah.php?func=editNasabah&tabel=nasabah&key=noidnasabah&noidnasabah=<?=$d['noidnasabah']; ?>" type="button" class="fa fa-edit" id="edit">Edit</a> | <a href="nasabah.php?func=hapusData&tabel=nasabah&key=noidnasabah&noidnasabah=<?=$d['noidnasabah']; ?>" class="fa fa-trash">Hapus</a></td>
                     </tr>
                 <?php
   
@@ -351,6 +350,98 @@ include '../function.php';
     </div>
   </div>
 
+<!-- The Modal -->
+<div class="modal" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Edit Nasabah</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <form action="../function.php?func=updateNasabah" method="GET">
+        <?php
+        foreach (ambilData($_GET['tabel'],$_GET['key'],$_GET['noidnasabah']) as $data) {
+                  ?>
+                <?php
+                  }
+                ?>
+          <div class="form-group">
+            <label for="noidnasabah">No Id Nasabah</label>
+            <input type="text" class="form-control" name="noidnasabah" value="<?= $data['noidnasabah'];?>" readonly>
+          </div>
+          <div class="form-group">
+            <label for="namanasabah">Nama Nasabah</label>
+            <input type="text" class="form-control" name="namanasabah" value="<?= $data['namanasabah'];?>">
+          </div>
+          <div class="form-group">
+            <label for="jeniskelaminnasabah">Jenis Kelamin</label>
+            <select class="form-control" name="jeniskelaminnasabah" id="jeniskelaminnasabah">
+              <option value="Laki - Laki">Laki - Laki</option>
+              <option value="Perempuan">Perempuan</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="tempatlahirnasabah">Tempat Lahir</label>
+            <input type="text" class="form-control" name="tempatlahirnasabah" value="<?= $data['tempatlahirnasabah'];?>">
+          </div>
+          <div class="form-group">
+            <label for="tanggallahirnasabah">Tanggal Lahir</label>
+            <input type="date" class="form-control" name="tanggallahirnasabah" value="<?= $data['tanggallahirnasabah'];?>">
+          </div>
+          <div class="form-group">
+            <label for="agamanasabah">Agama</label>
+            <select class="form-control" name="agamanasabah" id="agamanasabah">
+              <option value="Islam">Islam</option>
+              <option value="Kristen">Kristen</option>
+              <option value="Hindu">Hindu</option>
+              <option value="Budha">Budha</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="pendidikannasabah">Pendidikan</label>
+            <select class="form-control" name="pendidikannasabah" id="pendidikannasabah">
+              <option value="S2">S2</option>
+              <option value="S1">S1</option>
+              <option value="DIII">DIII</option>
+              <option value="SMA/K">SMA/K</option>
+              <option value="SMP">SMP</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="tanggalpendaftaran">Tanggal Pendaftaran</label>
+            <input type="date" class="form-control" name="tanggalpendaftaran" value="<?= $data['tanggalpendaftaran'];?>">
+          </div>
+          <button type="submit" class="btn btn-primary" name="func" value="updateNasabah">Update Nasabah</button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+  <!-- Logout Modal-->
+  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          <a class="btn btn-primary" href="login.html">Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Bootstrap core JavaScript-->
   <script src="../assets/js/jquery.js"></script>
   <script src="../assets/js/bootstrap.bundle.min.js"></script>
@@ -373,7 +464,15 @@ include '../function.php';
   <script>
     $(document).ready(function() {
       $('#nasabah').DataTable();
+
+      $.urlParam = function(name){
+      var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+      return results[1] || 0;
+    }
+    if($.urlParam('noidnasabah') != null);  
+    $("#myModal").modal("show");
     } );
+    
   </script>
 </body>
 

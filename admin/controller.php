@@ -10,9 +10,9 @@ switch ($hal) {
         # code...
         header("location:nasabah.php");
         break;
-    case 'pengajuan':
+    case 'pengajuan_pinjaman':
         # code...
-        header("location:pengajuan.php");
+        header("location:pengajuan_pinjaman.php");
         break;
     case 'dashboard':
         # code...

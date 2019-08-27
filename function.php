@@ -7,9 +7,6 @@ include'database.php';
 // $result = $mysqli->query($query);
 
 $func = $_GET['func'] ?? '';
-$tabel = $_GET['tabel'] ?? '';
-$key = $_GET['key'] ?? '';
-$noidnasabah = $_GET['noidnasabah'] ?? '';
 
 /***
 * Kumpulan Fungsi Proses
@@ -43,6 +40,17 @@ function tampilData($tabel){
     return $data ?? '';
 }
 
+function ambilData($tabel,$key,$id){
+    $query = "SELECT * FROM $tabel where $key = '$id'";
+    $mysqli = Database::getInstance()->getConnection();
+    $result = $mysqli->query($query);
+    while($d=mysqli_fetch_array($result)){
+        $data[] =$d;
+    }
+    return $data ?? '';
+}
+
+
 //Fungsi cek nasabah
 function cekData($tabel){
     $query = "SELECT * FROM $tabel";
@@ -69,11 +77,47 @@ function tambahNasabah($noidnasabah, $namanasabah, $jeniskelaminnasabah, $tempat
         header("location:admin/nasabah.php");
     }
 }
+function updateNasabah($noidnasabah, $namanasabah, $jeniskelaminnasabah, $tempatlahirnasabah, $tanggallahirnasabah, $agamanasabah, $pendidikannasabah, $tanggalpendaftaran ){
+    $query = "UPDATE  nasabah SET `noidnasabah` = '$noidnasabah', `namanasabah` = '$namanasabah', `jeniskelaminnasabah` = '$jeniskelaminnasabah', `tempatlahirnasabah` = '$tempatlahirnasabah', `tanggallahirnasabah` = '$tanggallahirnasabah', `agamanasabah` = '$agamanasabah', `pendidikannasabah` = '$pendidikannasabah', `tanggalpendaftaran` = '$tanggalpendaftaran' where noidnasabah = '$noidnasabah'" or die(mysql_error());
+    $mysqli = Database::getInstance()->getConnection();
+    $result = $mysqli->query($query);
+    if($result){
+        // header("location:admin/controller.php?hal=dashboard");
+        echo "<script>alert('Berhasil Merubah Data.'); window.location = 'admin/nasabah.php'</script>";
+    }else{
+        echo mysqli_error($mysqli);
+        //header("location:admin/nasabah.php");
+    }
+}
+
 
 //Fungsi Tambah Pengajuan
 function tambahPengajuan($idpengajuan, $nopinjaman, $tujuanpengajuan, $besarpengajuan, $jangkawaktupengajuan, $tanggalpengajuan){
     $query = "INSERT INTO pengajuan_pinjaman (idpengajuan, nopinjaman, tujuanpengajuan, besarpengajuan, jangkawaktupengajuan, tanggalpengajuan) values('$idpengajuan', '$nopinjaman', '$tujuanpengajuan', '$besarpengajuan', '$jangkawaktupengajuan', '$tanggalpengajuan')";
+    $mysqli = Database::getInstance()->getConnection();
+    $result = $mysqli->query($query);
+    if($result){
+        // header("location:admin/controller.php?hal=dashboard");
+        echo "<script>alert('Berhasil Menambahkan.'); window.location = 'admin/pengajuan_pinjaman.php'</script>";
+    }else{
+        echo mysqli_error($mysqli);
+        header("location:admin/pengajuan_pinjaman.php");
+    }
 
+}
+
+
+function updatePengajuan($idpengajuan, $nopinjaman, $tujuanpengajuan, $besarpengajuan, $jangkawaktupengajuan, $tanggalpengajuan){
+    $query = "UPDATE  pengajuan_pinjaman SET `idpengajuan` = '$idpengajuan', `nopinjaman` = '$nopinjaman', `tujuanpengajuan` = '$tujuanpengajuan', `besarpengajuan` = '$besarpengajuan', `jangkawaktupengajuan` = '$jangkawaktupengajuan', `tanggalpengajuan` = '$tanggalpengajuan' where idpengajuan = '$idpengajuan'" or die(mysql_error());
+    $mysqli = Database::getInstance()->getConnection();
+    $result = $mysqli->query($query);
+    if($result){
+        // header("location:admin/controller.php?hal=dashboard");
+        echo "<script>alert('Berhasil Merubah Data.'); window.location = 'admin/pengajuan_pinjaman.php'</script>";
+    }else{
+        echo mysqli_error($mysqli);
+        //header("location:admin/nasabah.php");
+    }
 }
 
 //Fungsi Tambah Pinjaman
@@ -81,7 +125,6 @@ function tambahPinjaman($nopinjaman, $besarpinjaman, $barangjaminan, $tanggalpin
     $query = "INSERT INTO pinjaman (nopinjaman, besarpinjaman, barangjaminan, tanggalpinjaman, tanggalberakhir) values($nopinjaman, $besarpinjaman, $barangjaminan, $tanggalpinjaman, $tanggalberakhir)";
 
 }
-
 //Fungsi Hapus Nasabah
 function hapusData($tabel,$key,$id){
     $query = "DELETE from $tabel where $key = '$id'" or die(mysql_error());
@@ -109,8 +152,23 @@ if($func == "login"){
 if($func == "tambahNasabah"){
     tambahNasabah($_GET['noidnasabah'], $_GET['namanasabah'], $_GET['jeniskelaminnasabah'], $_GET['tempatlahirnasabah'], $_GET['tanggallahirnasabah'], $_GET['agamanasabah'], $_GET['pendidikannasabah'], $_GET['tanggalpendaftaran']);
 }
+if($func == "updateNasabah"){
+    updateNasabah($_GET['noidnasabah'], $_GET['namanasabah'], $_GET['jeniskelaminnasabah'], $_GET['tempatlahirnasabah'], $_GET['tanggallahirnasabah'], $_GET['agamanasabah'], $_GET['pendidikannasabah'], $_GET['tanggalpendaftaran']);
+}
 
 if ($func == "hapusData") {
     hapusData($_GET['tabel'],$_GET['key'],$_GET['noidnasabah']);
+}
+
+if ($func == "hapusDataPengajuan") {
+    hapusData($_GET['tabel'],$_GET['key'],$_GET['idpengajuan']);
+}
+
+if($func == "tambahPengajuan"){
+    tambahPengajuan($_GET['idpengajuan'], $_GET['nopinjaman'], $_GET['tujuanpengajuan'], $_GET['besarpengajuan'], $_GET['jangkawaktupengajuan'], $_GET['tanggalpengajuan']);
+}
+
+if($func == "updatePengajuan"){
+    updatePengajuan($_GET['idpengajuan'], $_GET['nopinjaman'], $_GET['tujuanpengajuan'], $_GET['besarpengajuan'], $_GET['jangkawaktupengajuan'], $_GET['tanggalpengajuan']);
 }
 ?>
