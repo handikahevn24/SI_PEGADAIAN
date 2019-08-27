@@ -7,6 +7,9 @@ include'database.php';
 // $result = $mysqli->query($query);
 
 $func = $_GET['func'] ?? '';
+$tabel = $_GET['tabel'] ?? '';
+$key = $_GET['key'] ?? '';
+$noidnasabah = $_GET['noidnasabah'] ?? '';
 
 /***
 * Kumpulan Fungsi Proses
@@ -30,8 +33,8 @@ $result = $mysqli->query($query);
 
 //Fungsi Tampil nasabah
 
-function tampilNasabah(){
-    $query = "SELECT * FROM nasabah";
+function tampilData($tabel){
+    $query = "SELECT * FROM $tabel";
     $mysqli = Database::getInstance()->getConnection();
     $result = $mysqli->query($query);
     while($d=mysqli_fetch_array($result)){
@@ -79,6 +82,20 @@ function tambahPinjaman($nopinjaman, $besarpinjaman, $barangjaminan, $tanggalpin
 
 }
 
+//Fungsi Hapus Nasabah
+function hapusData($tabel,$key,$id){
+    $query = "DELETE from $tabel where $key = '$id'" or die(mysql_error());
+    $mysqli = Database::getInstance()->getConnection();
+    $result = $mysqli->query($query);
+    if($result){
+        // header("location:admin/controller.php?hal=dashboard");
+       echo "<script>alert('Berhasil Menghapus Data.'); window.location = '$tabel.php'</script>";
+    }else{
+        echo mysqli_error($mysqli);
+        echo "<script>alert('Gagal Hapus Data.'); window.history.back();</script>";
+    }
+}
+
 /**
  * Kumpulan Func
  */
@@ -91,5 +108,9 @@ if($func == "login"){
 //Func Tambah Nasabah
 if($func == "tambahNasabah"){
     tambahNasabah($_GET['noidnasabah'], $_GET['namanasabah'], $_GET['jeniskelaminnasabah'], $_GET['tempatlahirnasabah'], $_GET['tanggallahirnasabah'], $_GET['agamanasabah'], $_GET['pendidikannasabah'], $_GET['tanggalpendaftaran']);
+}
+
+if ($func == "hapusData") {
+    hapusData($_GET['tabel'],$_GET['key'],$_GET['noidnasabah']);
 }
 ?>

@@ -214,7 +214,7 @@ include '../function.php';
               }else {
                 // echo "ada datanya";
                 $no = 1;
-                foreach (tampilNasabah() as $d) {
+                foreach (tampilData("nasabah") as $d) {
                   ?>
                     <tr>
                         <td><?= $no++ ?></td>
@@ -225,7 +225,7 @@ include '../function.php';
                         <td><?= $d['agamanasabah']; ?></td>
                         <td><?= $d['agamanasabah']; ?></td>
                         <td><?= $d['tanggalpendaftaran']; ?></td>
-                        <td><a href="nasabah.php?func=edit" class="fa fa-edit">Edit</a> | <a href="http://" class="fa fa-trash">Hapus</a></td>
+                        <td><a href="nasabah.php?func=hapus" class="fa fa-edit">Edit</a> | <a href="nasabah.php?func=hapusData&tabel=nasabah&key=noidnasabah&noidnasabah=<?=$d['noidnasabah']; ?>" class="fa fa-trash">Hapus</a></td>
                     </tr>
                 <?php
   
