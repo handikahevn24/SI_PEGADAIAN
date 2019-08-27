@@ -209,24 +209,32 @@ include '../function.php';
               </thead>
               <tbody>
               <?php 
+              if (cekData("nasabah") == true) {
+                // echo "tidak ada data";
+              }else {
+                // echo "ada datanya";
                 $no = 1;
                 foreach (tampilNasabah() as $d) {
+                  ?>
+                    <tr>
+                        <td><?= $no++ ?></td>
+                        <td><?= $d['namanasabah']; ?></td>
+                        <td><?= $d['jeniskelaminnasabah']; ?></td>
+                        <td><?= $d['tempatlahirnasabah']; ?></td>
+                        <td><?= $d['tanggallahirnasabah']; ?></td>
+                        <td><?= $d['agamanasabah']; ?></td>
+                        <td><?= $d['agamanasabah']; ?></td>
+                        <td><?= $d['tanggalpendaftaran']; ?></td>
+                        <td><a href="nasabah.php?func=edit" class="fa fa-edit">Edit</a> | <a href="http://" class="fa fa-trash">Hapus</a></td>
+                    </tr>
+                <?php
+  
+                  }
                 ?>
-                  <tr>
-                      <td><?= $no++ ?></td>
-                      <td><?= $d['namanasabah']; ?></td>
-                      <td><?= $d['jeniskelaminnasabah']; ?></td>
-                      <td><?= $d['tempatlahirnasabah']; ?></td>
-                      <td><?= $d['tanggallahirnasabah']; ?></td>
-                      <td><?= $d['agamanasabah']; ?></td>
-                      <td><?= $d['agamanasabah']; ?></td>
-                      <td><?= $d['tanggalpendaftaran']; ?></td>
-                      <td><a href="nasabah.php?func=edit" class="fa fa-edit">Edit</a> | <a href="http://" class="fa fa-trash">Hapus</a></td>
-                  </tr>
               <?php
-
-                }
+              }
               ?>
+                
               </tbody>
             </table>
           </div>

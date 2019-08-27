@@ -29,7 +29,7 @@ $result = $mysqli->query($query);
 }
 
 //Fungsi Tampil nasabah
-$idnasabah = $_GET['idnasabah'] ?? '';
+
 function tampilNasabah(){
     $query = "SELECT * FROM nasabah";
     $mysqli = Database::getInstance()->getConnection();
@@ -37,7 +37,19 @@ function tampilNasabah(){
     while($d=mysqli_fetch_array($result)){
         $data[] =$d;
     }
-    return $data;
+    return $data ?? '';
+}
+
+//Fungsi cek nasabah
+function cekData($tabel){
+    $query = "SELECT * FROM $tabel";
+    $mysqli = Database::getInstance()->getConnection();
+    $result = $mysqli->query($query);
+    if ($result->num_rows == 0) {
+        return true;
+    }else {
+        return false;
+    }
 }
 
 // Fungsi Tambah Nasabah
