@@ -87,7 +87,7 @@ include '../function.php';
 
       <!-- Nav Item - Tables -->
       <li class="nav-item">
-        <a class="nav-link" href="controller.php?hal=pengajuan">
+        <a class="nav-link" href="controller.php?hal=pengajuan_pinjaman">
           <i class="fas fa-fw fa-table"></i>
           <span>Pengajuan</span></a>
       </li>
