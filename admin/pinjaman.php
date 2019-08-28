@@ -99,6 +99,26 @@ include '../function.php';
           <span>Pinjaman</span></a>
       </li>
 
+      <li class="nav-item">
+        <a class="nav-link" href="controller.php?hal=laporan_nasabah" target="_blank">
+          <i class="fas fa-fw fa-list"></i>
+          <span>Laporan Nasabah</span></a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" href="controller.php?hal=laporan_pengajuan_pinjaman" target="_blank">
+          <i class="fas fa-fw fa-list"></i>
+          <span>Laporan Pengajuan Pinjaman</span></a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" href="controller.php?hal=laporan_pinjaman" target="_blank">
+          <i class="fas fa-fw fa-list"></i>
+          <span>Laporan Pinjaman</span></a>
+      </li>
+
+
+
       <!-- Divider -->
       <hr class="sidebar-divider d-none d-md-block">
 

@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.5
+-- version 4.9.0.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 26 Agu 2019 pada 06.05
--- Versi server: 10.1.38-MariaDB
--- Versi PHP: 7.3.3
+-- Waktu pembuatan: 28 Agu 2019 pada 17.28
+-- Versi server: 10.3.16-MariaDB
+-- Versi PHP: 7.3.7
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -39,6 +39,14 @@ CREATE TABLE `nasabah` (
   `tanggalpendaftaran` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data untuk tabel `nasabah`
+--
+
+INSERT INTO `nasabah` (`noidnasabah`, `namanasabah`, `jeniskelaminnasabah`, `tempatlahirnasabah`, `tanggallahirnasabah`, `agamanasabah`, `pendidikannasabah`, `tanggalpendaftaran`) VALUES
+('4', 'Handika', 'Laki - Laki', 'Indramayu', '2019-08-14', 'Islam', 'S2', '2019-08-21'),
+('5', 'Handika 24', 'Laki - Laki', 'Jakarta', '2019-08-15', 'Islam', 'S2', '2019-08-15');
+
 -- --------------------------------------------------------
 
 --
@@ -54,6 +62,13 @@ CREATE TABLE `pengajuan_pinjaman` (
   `tanggalpengajuan` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data untuk tabel `pengajuan_pinjaman`
+--
+
+INSERT INTO `pengajuan_pinjaman` (`idpengajuan`, `nopinjaman`, `tujuanpengajuan`, `besarpengajuan`, `jangkawaktupengajuan`, `tanggalpengajuan`) VALUES
+(1, '3', 'Usaha', 10000000, 5, '2019-08-16');
+
 -- --------------------------------------------------------
 
 --
@@ -67,6 +82,13 @@ CREATE TABLE `pinjaman` (
   `tanggalpinjaman` date NOT NULL,
   `tanggalberakhir` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `pinjaman`
+--
+
+INSERT INTO `pinjaman` (`nopinjaman`, `besarpinjaman`, `barangjaminan`, `tanggalpinjaman`, `tanggalberakhir`) VALUES
+('1', 10000, 'Sepeda Motor', '2019-08-07', '2019-08-08');
 
 -- --------------------------------------------------------
 
@@ -104,6 +126,12 @@ ALTER TABLE `pengajuan_pinjaman`
   ADD PRIMARY KEY (`idpengajuan`);
 
 --
+-- Indeks untuk tabel `pinjaman`
+--
+ALTER TABLE `pinjaman`
+  ADD PRIMARY KEY (`nopinjaman`);
+
+--
 -- AUTO_INCREMENT untuk tabel yang dibuang
 --
 
@@ -111,7 +139,7 @@ ALTER TABLE `pengajuan_pinjaman`
 -- AUTO_INCREMENT untuk tabel `pengajuan_pinjaman`
 --
 ALTER TABLE `pengajuan_pinjaman`
-  MODIFY `idpengajuan` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idpengajuan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
