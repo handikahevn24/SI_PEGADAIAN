@@ -30,8 +30,27 @@ $result = $mysqli->query($query);
 
 //Fungsi Tampil nasabah
 
-function tampilData($tabel){
-    $query = "SELECT * FROM $tabel";
+function tampilData($tabel, $key = null){
+    if (!$key == null) {
+        $query = "SELECT *, sum($key) as total FROM $tabel";
+        $mysqli = Database::getInstance()->getConnection();
+        $result = $mysqli->query($query);
+        while($d=mysqli_fetch_array($result)){
+            $data[] =$d;
+        }
+    }else{
+
+        $query = "SELECT * FROM $tabel";
+        $mysqli = Database::getInstance()->getConnection();
+        $result = $mysqli->query($query);
+        while($d=mysqli_fetch_array($result)){
+            $data[] =$d;
+        }
+    }
+    return $data ?? '';
+}
+function total($tabel,$key){
+    $query = "SELECT sum($key) FROM $tabel";
     $mysqli = Database::getInstance()->getConnection();
     $result = $mysqli->query($query);
     while($d=mysqli_fetch_array($result)){

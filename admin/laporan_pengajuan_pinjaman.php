@@ -62,6 +62,19 @@ include '../function.php';
                 <?php
   
                   }
+
+                ?>
+                <tr>
+                  <td colspan="4"><strong>Jumlah</strong></td>
+                  <?php
+                  foreach (total("pengajuan_pinjaman","besarpengajuan") as $data) {
+                  ?>
+                  <td colspan="3"><strong><?= $data[0]; ?></strong></td>
+                </tr>
+                <?php
+                  
+                }
+
                 ?>
               <?php
               }

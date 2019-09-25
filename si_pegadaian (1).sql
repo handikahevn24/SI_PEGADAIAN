@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.0.1
+-- version 4.8.5
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 28 Agu 2019 pada 17.28
--- Versi server: 10.3.16-MariaDB
--- Versi PHP: 7.3.7
+-- Waktu pembuatan: 13 Sep 2019 pada 17.07
+-- Versi server: 10.1.38-MariaDB
+-- Versi PHP: 7.3.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -44,6 +44,7 @@ CREATE TABLE `nasabah` (
 --
 
 INSERT INTO `nasabah` (`noidnasabah`, `namanasabah`, `jeniskelaminnasabah`, `tempatlahirnasabah`, `tanggallahirnasabah`, `agamanasabah`, `pendidikannasabah`, `tanggalpendaftaran`) VALUES
+('3', 'Hevn', 'Laki - Laki', 'Indramayu', '1995-10-28', 'Islam', 'S2', '2019-12-31'),
 ('4', 'Handika', 'Laki - Laki', 'Indramayu', '2019-08-14', 'Islam', 'S2', '2019-08-21'),
 ('5', 'Handika 24', 'Laki - Laki', 'Jakarta', '2019-08-15', 'Islam', 'S2', '2019-08-15');
 
@@ -67,7 +68,8 @@ CREATE TABLE `pengajuan_pinjaman` (
 --
 
 INSERT INTO `pengajuan_pinjaman` (`idpengajuan`, `nopinjaman`, `tujuanpengajuan`, `besarpengajuan`, `jangkawaktupengajuan`, `tanggalpengajuan`) VALUES
-(1, '3', 'Usaha', 10000000, 5, '2019-08-16');
+(1, '3', 'Usaha', 10000000, 5, '2019-08-16'),
+(3, '2', 'hajatan', 500000, 5, '2019-12-31');
 
 -- --------------------------------------------------------
 
@@ -88,7 +90,8 @@ CREATE TABLE `pinjaman` (
 --
 
 INSERT INTO `pinjaman` (`nopinjaman`, `besarpinjaman`, `barangjaminan`, `tanggalpinjaman`, `tanggalberakhir`) VALUES
-('1', 10000, 'Sepeda Motor', '2019-08-07', '2019-08-08');
+('1', 10000, 'Sepeda Motor', '2019-08-07', '2019-08-08'),
+('2', 200000, 'Motor', '2019-12-31', '2019-12-31');
 
 -- --------------------------------------------------------
 
@@ -139,7 +142,7 @@ ALTER TABLE `pinjaman`
 -- AUTO_INCREMENT untuk tabel `pengajuan_pinjaman`
 --
 ALTER TABLE `pengajuan_pinjaman`
-  MODIFY `idpengajuan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `idpengajuan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

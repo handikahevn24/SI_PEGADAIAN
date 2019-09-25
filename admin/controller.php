@@ -26,10 +26,6 @@ switch ($hal) {
         # code...
         header("location:pengajuan_pinjaman.php");
         break;
-    case 'dashboard':
-        # code...
-        header("location:dashboard.php");
-        break;
     
     default:
         # code...
