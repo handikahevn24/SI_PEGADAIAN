@@ -13,7 +13,7 @@ include '../function.php';
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>SI Pegadaian - Pinjaman</title>
+  <title>SI Pegadaian - Pengajuan</title>
 
   <!-- Custom fonts for this template-->
   <link href="../assets/css/all.min.css" rel="stylesheet" type="text/css">
@@ -57,8 +57,8 @@ include '../function.php';
       <!-- Divider -->
       <hr class="sidebar-divider my-0">
 
-      <!-- Nav Item - Dashboard
-      <li class="nav-item active">
+      <!-- Nav Item - Dashboard -->
+      <!-- <li class="nav-item active">
         <a class="nav-link" href="controller.php?hal=dashboard">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Dashboard</span></a>
@@ -208,45 +208,61 @@ include '../function.php';
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Pinjaman</h1>
+            <h1 class="h3 mb-0 text-gray-800">Pengajuan</h1>
           </div>
 
           <div class="row">
-          <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#tambahPinjaman">Tambah Pinjaman
-          </button> -->
-            <table id="pinjaman" class="table table-striped table-bordered bg" style="width:100%">
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#tambahPengajuan">Tambah Pengajuan
+          </button>
+            <table id="pengajuan" class="table table-striped table-bordered bg" style="width:100%">
               <thead>
                   <tr>
                       <th>No</th>
+                      <th>No ID Pengajuan</th>
                       <th>No Pinjaman</th>
-                      <th>No ID Nasabah</th>
-                      <th>Besar Pinjaman</th>
+                      <th>Nasabah</th>
+                      <th>Tujuan Pengajuan</th>
+                      <th>Besar Pengajuan</th>
                       <th>Barang Jaminan</th>
-                      <th>Tanggal Pinjaman</th>
-                      <th>Tanggal Berakhir</th>
-                      <th>Status</th>
+                      <th>Jangka Waktu</th>
+                      <th>Tanggal Pengajuan</th>
+                      <th>Harga Setelah Tafsir</th>
                       <th>Aksi</th>
                   </tr>
               </thead>
               <tbody>
               <?php 
-              if (cekData("pinjaman") == true) {
+              if (cekData("pengajuan_pinjaman") == true) {
                 // echo "tidak ada data";
               }else {
                 // echo "ada datanya";
                 $no = 1;
-                foreach (tampilDataPinjaman() as $d) {
+                foreach (tampilDataPengajuan() as $d) {
                   ?>
                     <tr>
                         <td><?= $no++ ?></td>
+                        <td><?= $d['idpengajuan']; ?></td>
                         <td><?= $d['nopinjaman']; ?></td>
-                        <td><?= $d['noidnasabah']; ?></td>
+                        <td><?= $d['namanasabah']; ?></td>
+                        <td><?= $d['tujuanpengajuan']; ?></td>
                         <td><?= $d['besarpengajuan']; ?></td>
                         <td><?= $d['barangjaminan']; ?></td>
-                        <td><?= $d['tanggalpinjaman']; ?></td>
-                        <td><?= $d['tanggalberakhir']; ?></td>
-                        <td><?= $d['status']; ?></td>
-                        <td><a href="pinjaman.php?func=Diterima&tabel=pinjaman&key=nopinjaman&nopinjaman=<?=$d['nopinjaman']; ?>" class="fa fa-check" id="Diterima"> Diterima <a href="pinjaman.php?func=hapusDataPinjaman&tabel=pinjaman&key=nopinjaman&nopinjaman=<?=$d['nopinjaman']; ?>" class="fa fa-trash">Hapus</a></td>
+                        <td><?= $d['jangkawaktupengajuan']; ?></td>
+                        <td><?= $d['tanggalpengajuan']; ?></td>
+                        <?php
+                          if ($d['hargasetelahtafsir'] != NULL) {
+                            ?>
+                            <td><?= $d['hargasetelahtafsir']; ?></td>
+                          <?php
+                            
+                          }else{
+                            ?>
+                            <td><a href="tafsir.php?tabel=pengajuan_pinjaman&key=idpengajuan&idpengajuan=<?=$d['idpengajuan']; ?>" type="button" class="btn btn-block btn-primary" id="tafsir">Tafsir</a></td>
+                            <?php
+                          }
+
+                        ?>
+                        <td><a href="pengajuan_pinjaman.php?func=editPengajuan&tabel=pengajuan_pinjaman&key=idpengajuan&idpengajuan=<?=$d['idpengajuan']; ?>" type="button" class="fa fa-edit" id="edit">Edit</a> | <a href="pengajuan_pinjaman.php?func=hapusDataPengajuan&tabel=pengajuan_pinjaman&key=idpengajuan&idpengajuan=<?=$d['idpengajuan']; ?>" class="fa fa-trash">Hapus</a></td>
                     </tr>
                 <?php
   
@@ -287,49 +303,62 @@ include '../function.php';
   </a>
 
 <!-- The Modal -->
-<div class="modal" id="tambahPinjaman">
+<div class="modal" id="tambahPengajuan">
   <div class="modal-dialog">
     <div class="modal-content">
 
       <!-- Modal Header -->
       <div class="modal-header">
-        <h4 class="modal-title">Tambah Pinjaman</h4>
+        <h4 class="modal-title">Tambah Pengajuan</h4>
         <button type="button" class="close" data-dismiss="modal">&times;</button>
       </div>
 
       <!-- Modal body -->
       <div class="modal-body">
-        <form action="../function.php?func=tambahPinjaman" method="GET">
+        <form action="../function.php?func=tambahPengajuan" method="GET">
+          <div class="form-group">
+            <label for="idpengajuan">No Id pengajuan </label>
+            <input type="text" class="form-control" name="idpengajuan" value="PEN">
+          </div>
           <div class="form-group">
             <label for="nopinjaman">No Pinjaman</label>
+            <input type="text" class="form-control" name="nopinjaman" value="PIN">
+          </div>
+          <div class="form-group">
+            <label for="nasabah">Nasabah</label>
             <select class="form-control" name="nasabah" id="nasabah">
+              <option value="">Pilih Nasabah</option>
               <?php
-                foreach (tampilData("pengajuan_pinjaman") as $pinjaman) {
+                foreach (tampilData("nasabah") as $nasabah) {
                   ?>
-                  <option value="<?=$pinjaman['nopinjaman'];?>"><?=$pinjaman['nopinjaman'];?></option>
+                  <option value="<?=$nasabah['noidnasabah'];?>"><?=$nasabah['namanasabah'];?></option>
                 <?php
                 }
               ?>
             </select>
           </div>
           <div class="form-group">
-            <label for="besarpinjaman">Besar Pinjaman</label>
-            <input class="form-control" name="besarpinjaman" id="besarpinjaman">
+            <label for="tujuanpengajuan">Tujuan Pengajuan</label>
+            <input class="form-control" name="tujuanpengajuan" id="tujuanpengajuan">
+          </div>
+          <div class="form-group">
+            <label for="besarpengajuan">Besar Pengajuan</label>
+            <input type="text" class="form-control" name="besarpengajuan">
           </div>
           <div class="form-group">
             <label for="barangjaminan">Barang Jaminan</label>
             <input type="text" class="form-control" name="barangjaminan">
           </div>
           <div class="form-group">
-            <label for="tanggalpinjaman">Tanggal Pinjaman</label>
-            <input type="date" class="form-control" name="tanggalpinjaman">
+            <label for="jangkawaktupengajuan">Jangka Waktu Pengajuan</label>
+            <input type="input" class="form-control" name="jangkawaktupengajuan">
+            <label for="jangkawaktupengajuan">Bulan</label>
           </div>
           <div class="form-group">
-            <label for="tanggalberakhir">Tanggal Berakhir</label>
-            <input type="date" class="form-control" name="tanggalberakhir">
-            <label for="tanggalberakhir">Bulan</label>
+            <label for="tanggalpengajuan">Tanggal Pengajuan</label>
+            <input type="date" class="form-control" name="tanggalpengajuan" value="<?php echo date('d/m/y');?>">
           </div>
-          <button type="submit" class="btn btn-primary" name="func" value="tambahPinjaman">Tambah Pinjaman</button>
+          <button type="submit" class="btn btn-primary" name="func" value="tambahPengajuan">Tambah Pengajuan</button>
         </form>
       </div>
 
@@ -362,41 +391,42 @@ include '../function.php';
 
       <!-- Modal Header -->
       <div class="modal-header">
-        <h4 class="modal-title">Edit Pinjaman</h4>
+        <h4 class="modal-title">Tafsir Harga</h4>
         <button type="button" class="close" data-dismiss="modal">&times;</button>
       </div>
 
       <!-- Modal body -->
       <div class="modal-body">
-        <form action="../function.php?func=updatePengajuan" method="GET">
+        <form action="../function.php?func=updateTafsir" method="GET">
         <?php
-        foreach (ambilData($_GET['tabel'],$_GET['key'],$_GET['nopinjaman']) as $data) {
+        foreach (ambilData($_GET['tabel'],$_GET['key'],$_GET['idpengajuan']) as $data) {
                   ?>
                 <?php
                   }
                 ?>
           <div class="form-group">
-            <label for="nopinjaman">No Pinjaman</label>
-            <input type="text" class="form-control" name="nopinjaman" value="<?= $data['nopinjaman'];?>">
+            <label for="idpengajuan">No Id pengajuan </label>
+            <input type="text" class="form-control" name="idpengajuan" value="<?= $data['idpengajuan'];?>" readonly>
           </div>
           <div class="form-group">
-            <label for="besarpinjaman">Besar Pinjaman</label>
-            <input class="form-control" name="besarpinjaman" id="besarpinjaman" value="<?= $data['besarpinjaman'];?>">
+            <label for="besarpengajuan">Besar Pengajuan</label>
+            <input id="besarpengajuan" type="text" class="form-control" name="besarpengajuan" value="<?= $data['besarpengajuan'];?>" readonly>
           </div>
           <div class="form-group">
-            <label for="barangjaminan">Barang Jaminan</label>
-            <input type="text" class="form-control" name="barangjaminan" value="<?= $data['barangjaminan'];?>">
+            <label for="kondisibarang">Kondisi Barang</label>
+            <select name="kondisibarang" class="form-control" id="kondisibarang">
+            <option value="100">100%</option>
+            <option value="90">90%</option>
+            <option value="80">80%</option>
+            <option value="70">70%</option>
+            <option value="60">60%</option>
+            </select>
           </div>
           <div class="form-group">
-            <label for="tanggalpinjaman">Tanggal Pinjaman</label>
-            <input type="input" class="form-control" name="tanggalpinjaman" value="<?= $data['tanggalpinjaman'];?>">
-            <label for="tanggalpinjaman">Bulan</label>
+            <label for="hargasetelahtafsir">Harga Setelah Tafsir</label>
+            <input type="text" class="form-control" name="hargasetelahtafsir" id="hargasetelahtafsir" readonly>
           </div>
-          <div class="form-group">
-            <label for="tanggalberakhir">Tanggal Berakhir</label>
-            <input type="date" class="form-control" name="tanggalberakhir" value="<?= $data['tanggalberakhir'];?>">
-          </div>
-          <button type="submit" class="btn btn-primary" name="func" value="updatePinjaman">Update Pinjaman</button>
+          <button type="submit" class="btn btn-primary" name="func" value="updateTafsir">Tafsir</button>
         </form>
       </div>
 
@@ -443,14 +473,23 @@ include '../function.php';
 
   <script>
     $(document).ready(function() {
-      $('#pinjaman').DataTable();
+      $('#pengajuan').DataTable();
 
       $.urlParam = function(name){
       var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
       return results[1] || 0;
     }
-    if($.urlParam('nopinjaman') != null);  
+
+    if($.urlParam('idpengajuan') != null);  
     $("#myModal").modal("show");
+
+    $(document).on('click','#kondisibarang', function() {
+    let total = 0;
+    kondisibarang = $("#kondisibarang").val();
+    hargabarang = $("#besarpengajuan").val();
+    total = (hargabarang * kondisibarang) / 100;   
+    $("#hargasetelahtafsir").val(total);
+});
     } );
     
   </script>

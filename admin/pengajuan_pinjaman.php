@@ -21,6 +21,20 @@ include '../function.php';
 
   <!-- Custom styles for this template-->
   <link href="../assets/css/sb-admin-2.min.css" rel="stylesheet">
+  <style>
+  .bg {
+  /* The image used */
+  background-image: url("img/body.png");
+
+  /* Full height */
+  height: 100%;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 50%;
+}
+  </style>
 
 </head>
 
@@ -200,16 +214,19 @@ include '../function.php';
           <div class="row">
           <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#tambahPengajuan">Tambah Pengajuan
           </button>
-            <table id="pengajuan" class="table table-striped table-bordered" style="width:100%">
+            <table id="pengajuan" class="table table-striped table-bordered bg" style="width:100%">
               <thead>
                   <tr>
                       <th>No</th>
                       <th>No ID Pengajuan</th>
                       <th>No Pinjaman</th>
+                      <th>Nasabah</th>
                       <th>Tujuan Pengajuan</th>
                       <th>Besar Pengajuan</th>
+                      <th>Barang Jaminan</th>
                       <th>Jangka Waktu</th>
                       <th>Tanggal Pengajuan</th>
+                      <th>Harga Setelah Tafsir</th>
                       <th>Aksi</th>
                   </tr>
               </thead>
@@ -220,16 +237,31 @@ include '../function.php';
               }else {
                 // echo "ada datanya";
                 $no = 1;
-                foreach (tampilData("pengajuan_pinjaman") as $d) {
+                foreach (tampilDataPengajuan() as $d) {
                   ?>
                     <tr>
                         <td><?= $no++ ?></td>
                         <td><?= $d['idpengajuan']; ?></td>
                         <td><?= $d['nopinjaman']; ?></td>
+                        <td><?= $d['namanasabah']; ?></td>
                         <td><?= $d['tujuanpengajuan']; ?></td>
                         <td><?= $d['besarpengajuan']; ?></td>
+                        <td><?= $d['barangjaminan']; ?></td>
                         <td><?= $d['jangkawaktupengajuan']; ?></td>
                         <td><?= $d['tanggalpengajuan']; ?></td>
+                        <?php
+                          if ($d['hargasetelahtafsir'] != NULL) {
+                            ?>
+                            <td><?= $d['hargasetelahtafsir']; ?></td>
+                          <?php
+                            
+                          }else{
+                            ?>
+                            <td><a href="tafsir.php?tabel=pengajuan_pinjaman&key=idpengajuan&idpengajuan=<?=$d['idpengajuan']; ?>" type="button" class="btn btn-block btn-primary" id="tafsir">Tafsir</a></td>
+                            <?php
+                          }
+
+                        ?>
                         <td><a href="pengajuan_pinjaman.php?func=editPengajuan&tabel=pengajuan_pinjaman&key=idpengajuan&idpengajuan=<?=$d['idpengajuan']; ?>" type="button" class="fa fa-edit" id="edit">Edit</a> | <a href="pengajuan_pinjaman.php?func=hapusDataPengajuan&tabel=pengajuan_pinjaman&key=idpengajuan&idpengajuan=<?=$d['idpengajuan']; ?>" class="fa fa-trash">Hapus</a></td>
                     </tr>
                 <?php
@@ -286,11 +318,24 @@ include '../function.php';
         <form action="../function.php?func=tambahPengajuan" method="GET">
           <div class="form-group">
             <label for="idpengajuan">No Id pengajuan </label>
-            <input type="text" class="form-control" name="idpengajuan">
+            <input type="text" class="form-control" name="idpengajuan" value="PEN">
           </div>
           <div class="form-group">
             <label for="nopinjaman">No Pinjaman</label>
-            <input type="text" class="form-control" name="nopinjaman">
+            <input type="text" class="form-control" name="nopinjaman" value="PIN">
+          </div>
+          <div class="form-group">
+            <label for="nasabah">Nasabah</label>
+            <select class="form-control" name="nasabah" id="nasabah">
+              <option value="">Pilih Nasabah</option>
+              <?php
+                foreach (tampilData("nasabah") as $nasabah) {
+                  ?>
+                  <option value="<?=$nasabah['noidnasabah'];?>"><?=$nasabah['namanasabah'];?></option>
+                <?php
+                }
+              ?>
+            </select>
           </div>
           <div class="form-group">
             <label for="tujuanpengajuan">Tujuan Pengajuan</label>
@@ -299,6 +344,10 @@ include '../function.php';
           <div class="form-group">
             <label for="besarpengajuan">Besar Pengajuan</label>
             <input type="text" class="form-control" name="besarpengajuan">
+          </div>
+          <div class="form-group">
+            <label for="barangjaminan">Barang Jaminan</label>
+            <input type="text" class="form-control" name="barangjaminan">
           </div>
           <div class="form-group">
             <label for="jangkawaktupengajuan">Jangka Waktu Pengajuan</label>
@@ -433,6 +482,7 @@ include '../function.php';
       var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
       return results[1] || 0;
     }
+
     if($.urlParam('idpengajuan') != null);  
     $("#myModal").modal("show");
     } );

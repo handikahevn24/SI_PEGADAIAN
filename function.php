@@ -49,6 +49,27 @@ function tampilData($tabel, $key = null){
     }
     return $data ?? '';
 }
+
+function tampilDataPengajuan(){
+    $query = "SELECT * FROM pengajuan_pinjaman,nasabah where pengajuan_pinjaman.noidnasabah = nasabah.noidnasabah";
+    $mysqli = Database::getInstance()->getConnection();
+    $result = $mysqli->query($query);
+    while($d=mysqli_fetch_array($result)){
+        $data[] =$d;
+    }
+    return $data ?? '';   
+}
+function tampilDataPinjaman(){
+    $query = "SELECT * FROM pengajuan_pinjaman,pinjaman WHERE pinjaman.nopinjaman = pengajuan_pinjaman.nopinjaman";
+    $mysqli = Database::getInstance()->getConnection();
+    $result = $mysqli->query($query);
+    while($d=mysqli_fetch_array($result)){
+        $data[] =$d;
+    }
+    return $data ?? '';   
+}
+
+
 function total($tabel,$key){
     $query = "SELECT sum($key) FROM $tabel";
     $mysqli = Database::getInstance()->getConnection();
@@ -111,8 +132,8 @@ function updateNasabah($noidnasabah, $namanasabah, $jeniskelaminnasabah, $tempat
 
 
 //Fungsi Tambah Pengajuan
-function tambahPengajuan($idpengajuan, $nopinjaman, $tujuanpengajuan, $besarpengajuan, $jangkawaktupengajuan, $tanggalpengajuan){
-    $query = "INSERT INTO pengajuan_pinjaman (idpengajuan, nopinjaman, tujuanpengajuan, besarpengajuan, jangkawaktupengajuan, tanggalpengajuan) values('$idpengajuan', '$nopinjaman', '$tujuanpengajuan', '$besarpengajuan', '$jangkawaktupengajuan', '$tanggalpengajuan')";
+function tambahPengajuan($idpengajuan, $nopinjaman, $tujuanpengajuan, $besarpengajuan, $jangkawaktupengajuan, $tanggalpengajuan, $nasabah, $barangjaminan){
+    $query = "INSERT INTO pengajuan_pinjaman (idpengajuan, nopinjaman, tujuanpengajuan, besarpengajuan, jangkawaktupengajuan, tanggalpengajuan, noidnasabah, barangjaminan) values('$idpengajuan', '$nopinjaman', '$tujuanpengajuan', '$besarpengajuan', '$jangkawaktupengajuan', '$tanggalpengajuan', '$nasabah', '$barangjaminan')";
     $mysqli = Database::getInstance()->getConnection();
     $result = $mysqli->query($query);
     if($result){
@@ -140,8 +161,20 @@ function updatePengajuan($idpengajuan, $nopinjaman, $tujuanpengajuan, $besarpeng
 }
 
 //Fungsi Tambah Pinjaman
-function tambahPinjaman($nopinjaman, $besarpinjaman, $barangjaminan, $tanggalpinjaman, $tanggalberakhir){
-    $query = "INSERT INTO pinjaman (nopinjaman, besarpinjaman, barangjaminan, tanggalpinjaman, tanggalberakhir) values('$nopinjaman', '$besarpinjaman', '$barangjaminan', '$tanggalpinjaman', '$tanggalberakhir')";
+// function tambahPinjaman($nopinjaman, $besarpinjaman, $barangjaminan, $tanggalpinjaman, $tanggalberakhir){
+//     $query = "INSERT INTO pinjaman (nopinjaman, besarpinjaman, barangjaminan, tanggalpinjaman, tanggalberakhir) values('$nopinjaman', '$besarpinjaman', '$barangjaminan', '$tanggalpinjaman', '$tanggalberakhir')";
+//     $mysqli = Database::getInstance()->getConnection();
+//     $result = $mysqli->query($query);
+//     if($result){
+//         // header("location:admin/controller.php?hal=dashboard");
+//         echo "<script>alert('Berhasil Menambahkan.'); window.location = 'admin/pinjaman.php'</script>";
+//     }else{
+//         echo mysqli_error($mysqli);
+//         header("location:admin/pinjaman.php");
+//     }
+// }
+function tambahPinjaman($nopinjaman, $tanggalpinjaman, $tanggalberakhir){
+    $query = "INSERT INTO pinjaman (nopinjaman, tanggalpinjaman, tanggalberakhir) values('$nopinjaman', '$tanggalpinjaman', '$tanggalberakhir')";
     $mysqli = Database::getInstance()->getConnection();
     $result = $mysqli->query($query);
     if($result){
@@ -169,6 +202,18 @@ function hapusData($tabel,$key,$id){
 //Fungsi Update Pinjaman
 function updatePinjaman($nopinjaman, $besarpinjaman, $barangjaminan, $tanggalpinjaman, $tanggalberakhir){
     $query = "UPDATE  pinjaman SET `nopinjaman` = '$nopinjaman', `besarpinjaman` = '$besarpinjaman', `barangjaminan` = '$barangjaminan', `tanggalpinjaman` = '$tanggalpinjaman', `tanggalberakhir` = '$tanggalberakhir' where nopinjaman = '$nopinjaman'" or die(mysql_error());
+    $mysqli = Database::getInstance()->getConnection();
+    $result = $mysqli->query($query);
+    if($result){
+        // header("location:admin/controller.php?hal=dashboard");
+        echo "<script>alert('Berhasil Merubah Data.'); window.location = 'admin/pengajuan_pinjaman.php'</script>";
+    }else{
+        echo mysqli_error($mysqli);
+        //header("location:admin/nasabah.php");
+    }
+}
+function updateTafsir($idpengajuan, $hargasetelahtafsir){
+    $query = "UPDATE  pengajuan_pinjaman SET `hargasetelahtafsir` = '$hargasetelahtafsir' where idpengajuan = '$idpengajuan'" or die(mysql_error());
     $mysqli = Database::getInstance()->getConnection();
     $result = $mysqli->query($query);
     if($result){
@@ -211,7 +256,11 @@ if ($func == "hapusDataPinjaman") {
 }
 
 if($func == "tambahPengajuan"){
-    tambahPengajuan($_GET['idpengajuan'], $_GET['nopinjaman'], $_GET['tujuanpengajuan'], $_GET['besarpengajuan'], $_GET['jangkawaktupengajuan'], $_GET['tanggalpengajuan']);
+    tambahPengajuan($_GET['idpengajuan'], $_GET['nopinjaman'], $_GET['tujuanpengajuan'], $_GET['besarpengajuan'], $_GET['jangkawaktupengajuan'], $_GET['tanggalpengajuan'], $_GET['nasabah'], $_GET['barangjaminan']);
+    $date = new DateTime($_GET['tanggalpengajuan']);
+    $date->modify('+'.$_GET['jangkawaktupengajuan'].' month');
+    $tanggalakhir = $date->format('Y-m-d');
+    tambahPinjaman($_GET['nopinjaman'],$_GET['tanggalpengajuan'],$tanggalakhir);
 }
 
 if($func == "tambahPinjaman"){
@@ -224,5 +273,8 @@ if($func == "updatePengajuan"){
 
 if($func == "updatePinjaman"){
     updatePinjaman($_GET['nopinjaman'], $_GET['besarpinjaman'], $_GET['barangjaminan'], $_GET['tanggalpinjaman'], $_GET['tanggalberakhir']);
+}
+if($func == "updateTafsir"){
+    updateTafsir($_GET['idpengajuan'], $_GET['hargasetelahtafsir']);
 }
 ?>
